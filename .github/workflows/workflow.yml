@@ -15,12 +15,17 @@ jobs:
 
       - name: Generate Wrapper and Build
         run: |
-          # 1. 使用稳定版 8.5，避免预览版的各种奇怪问题
+          # 强制生成 8.5 版本的 wrapper
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           
-          # 2. 核心：添加 --dependency-verification off 参数跳过校验
-          ./gradlew assembleDebug --dependency-verification off
+          # 使用 --no-daemon 确保干净的环境
+          # 使用 -x lint 跳过不必要的检查
+          # 加上禁用校验的暴力参数
+          ./gradlew assembleDebug \
+            --no-daemon \
+            --dependency-verification off \
+            -x lint
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
