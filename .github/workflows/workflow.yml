@@ -16,23 +16,19 @@ jobs:
 
       - name: Manual Gradle Setup and Build
         run: |
-          # 1. 绕过系统命令，手动下载 Gradle 8.5 运行包
+          # 1. 下载并解压 Gradle 8.5
           wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
           unzip -q gradle-8.5-bin.zip
           export GRADLE_HOME=$PWD/gradle-8.5
           export PATH=$GRADLE_HOME/bin:$PATH
           
-          # 2. 验证当前版本必须是 8.5
-          gradle -v
-          
-          # 3. 运行编译，禁用所有可能导致冲突的校验和增量功能
-          # 我们不再使用 ./gradlew，直接用刚刚下载好的本地 gradle 命令
-          gradle assembleDebug \
+          # 2. 清理之前的缓存并编译
+          # 使用 --no-daemon 保证纯净，-D 彻底禁用校验
+          gradle clean assembleDebug \
             --no-daemon \
             -Dorg.gradle.dependency.verification=off \
             --dependency-verification off \
-            -Pkotlin.incremental=false \
-            -Pandroid.useAndroidX=true
+            -Pkotlin.incremental=false
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
