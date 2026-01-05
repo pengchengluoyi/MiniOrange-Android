@@ -13,24 +13,26 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-          # 暂时关闭缓存，确保环境纯净
-          # cache: gradle
 
-      - name: Force Build with Local Wrapper
+      - name: Manual Gradle Setup and Build
         run: |
-          # 1. 彻底锁定 Gradle 8.5 稳定版
-          # 我们不再使用系统的 'gradle' 命令来打包，只用它生成一次 wrapper
-          gradle wrapper --gradle-version 8.5
-          chmod +x gradlew
+          # 1. 绕过系统命令，手动下载 Gradle 8.5 运行包
+          wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
+          unzip -q gradle-8.5-bin.zip
+          export GRADLE_HOME=$PWD/gradle-8.5
+          export PATH=$GRADLE_HOME/bin:$PATH
           
-          # 2. 核心修复：使用 ./gradlew (刚生成的8.5) 而非系统 gradle
-          # 添加禁用校验和禁用守护进程的标志
-          # 加上 -P 参数强制忽略依赖验证
-          ./gradlew assembleDebug \
+          # 2. 验证当前版本必须是 8.5
+          gradle -v
+          
+          # 3. 运行编译，禁用所有可能导致冲突的校验和增量功能
+          # 我们不再使用 ./gradlew，直接用刚刚下载好的本地 gradle 命令
+          gradle assembleDebug \
             --no-daemon \
             -Dorg.gradle.dependency.verification=off \
             --dependency-verification off \
-            -Pkotlin.incremental=false
+            -Pkotlin.incremental=false \
+            -Pandroid.useAndroidX=true
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
