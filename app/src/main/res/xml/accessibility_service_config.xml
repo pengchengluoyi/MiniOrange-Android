@@ -3,4 +3,4 @@
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:canPerformGestures="true"
-    android:description="@string/service_desc" />
+    android:description="MiniOrange 自动化助手" />

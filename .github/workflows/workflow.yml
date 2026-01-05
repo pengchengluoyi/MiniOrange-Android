@@ -28,3 +28,14 @@ jobs:
           name: MiniOrange-Assistant
           # 确认这个路径在你的 app/build/outputs 目录下
           path: app/build/outputs/apk/debug/app-debug.apk
+
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }} # 或者解析 build.gradle 获取版本号
+          release_name: Release v${{ github.run_number }}
+          draft: false
+          prerelease: false
