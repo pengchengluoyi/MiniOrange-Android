@@ -13,8 +13,8 @@ android {
         applicationId = "com.miniorange.miniorange_android"
         minSdk = 24
         targetSdk = 36
-        versionCode = 1    // 每次更新版本加 1
-        versionName = "1.0.1" // 修改为你想要的版本号
+        versionCode = 2    // 每次更新版本加 1
+        versionName = "1.0.2" // 修改为你想要的版本号
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
