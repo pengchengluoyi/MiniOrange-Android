@@ -8,11 +8,12 @@ object SocketManager {
         OkHttpClient().newWebSocket(request, object : WebSocketListener() {
             override fun onMessage(webSocket: WebSocket, text: String) {
                 val json = JSONObject(text)
+                // 远程指令格式: {"action": "click", "x": 500, "y": 1000}
                 if (json.optString("action") == "click") {
-                    MService.instance?.performClick(
-                        json.optDouble("x").toFloat(),
-                        json.optDouble("y").toFloat()
-                    )
+                    val x = json.optDouble("x").toFloat()
+                    val y = json.optDouble("y").toFloat()
+                    // 修复此处：调用升级后的通用手势方法，点击时长设为 100ms
+                    MService.instance?.executeGesture(x, y, x, y, 100)
                 }
             }
         })
