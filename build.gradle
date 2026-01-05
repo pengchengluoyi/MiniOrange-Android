@@ -1,5 +1,0 @@
-// 仅保留插件声明，删除之前添加的 allprojects 块（那个在 8.5+ 有时会报语法错）
-plugins {
-    id 'com.android.application' version '8.2.0' apply false
-    id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
-}

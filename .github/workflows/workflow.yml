@@ -13,25 +13,18 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: gradle
 
-      - name: Manual Gradle Setup and Build
-        run: |
-          # 1. 下载并解压 Gradle 8.5
-          wget -q https://services.gradle.org/distributions/gradle-8.5-bin.zip
-          unzip -q gradle-8.5-bin.zip
-          export GRADLE_HOME=$PWD/gradle-8.5
-          export PATH=$GRADLE_HOME/bin:$PATH
-          
-          # 2. 清理之前的缓存并编译
-          # 使用 --no-daemon 保证纯净，-D 彻底禁用校验
-          gradle clean assembleDebug \
-            --no-daemon \
-            -Dorg.gradle.dependency.verification=off \
-            --dependency-verification off \
-            -Pkotlin.incremental=false
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      - name: Build with Gradle
+        # 此时已经不需要 wget 下载 gradle，直接使用 Android Studio 生成的 gradlew
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: MiniOrange-Assistant
+          # 确认这个路径在你的 app/build/outputs 目录下
           path: app/build/outputs/apk/debug/app-debug.apk

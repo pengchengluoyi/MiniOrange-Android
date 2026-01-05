@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="service_desc">MiniOrange 自动化助手：扫码即可受控</string>
+    <string name="app_name">MiniOrange-Android</string>
 </resources>
