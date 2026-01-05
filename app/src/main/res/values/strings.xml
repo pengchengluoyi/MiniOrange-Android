@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">MiniOrange-Android</string>
+    <string name="app_name">MiniOrange</string>
+    <string name="service_desc">MiniOrange 自动化助手：扫码受控执行点击</string>
 </resources>
