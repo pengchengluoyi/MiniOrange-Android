@@ -1,10 +1,12 @@
-name: Android CI/CD
+name: Android Auto Release
 
-on: [push]
+on: [push] # 每次 push 都会触发
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions: # 赋予 Action 写入 Release 的权限
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -18,24 +20,18 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        # 此时已经不需要 wget 下载 gradle，直接使用 Android Studio 生成的 gradlew
+      - name: Build APK
         run: ./gradlew assembleDebug
 
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
+      - name: Create Auto Tag and Release
+        uses: softprops/action-gh-release@v1
         with:
-          name: MiniOrange-Assistant
-          # 确认这个路径在你的 app/build/outputs 目录下
-          path: app/build/outputs/apk/debug/app-debug.apk
-
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
+          # 使用运行次数作为 tag，例如 v12
+          tag_name: v${{ github.run_number }}
+          name: Auto Release v${{ github.run_number }}
+          files: app/build/outputs/apk/debug/app-debug.apk
+          body: |
+            自动生成的版本号: v${{ github.run_number }}
+            提交信息: ${{ github.event.head_commit.message }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ github.run_number }} # 或者解析 build.gradle 获取版本号
-          release_name: Release v${{ github.run_number }}
-          draft: false
-          prerelease: false
