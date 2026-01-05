@@ -3,4 +3,5 @@
     android:accessibilityEventTypes="typeAllMask"
     android:accessibilityFeedbackType="feedbackGeneric"
     android:canPerformGestures="true"
-    android:description="@string/service_desc" />
+    android:description="@string/service_desc"
+    android:notificationTimeout="100" />
