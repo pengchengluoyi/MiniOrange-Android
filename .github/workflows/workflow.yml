@@ -13,19 +13,18 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Generate Wrapper and Build
+      - name: Build APK
         run: |
-          # 强制生成 8.5 版本的 wrapper
+          # 1. 强制生成并使用 8.5 稳定版，避开 9.x 的各种实验性限制
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           
-          # 使用 --no-daemon 确保干净的环境
-          # 使用 -x lint 跳过不必要的检查
-          # 加上禁用校验的暴力参数
+          # 2. 通过环境变量注入禁用校验的配置
+          # --no-daemon 确保环境干净
           ./gradlew assembleDebug \
-            --no-daemon \
+            -Dorg.gradle.dependency.verification=off \
             --dependency-verification off \
-            -x lint
+            --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4

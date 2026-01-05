@@ -1,11 +1,14 @@
-// 在文件开头或 plugins 块后添加
-configurations.all {
-    resolutionStrategy {
-        // 禁用依赖锁定和校验（如果已开启）
-        deactivateDependencyLocking()
-    }
-};
+// 必须在第一行，不能有任何其他代码在上面
 plugins {
     id 'com.android.application' version '8.2.0' apply false
     id 'org.jetbrains.kotlin.android' version '1.9.0' apply false
+}
+
+// 禁用校验的代码要放在 plugins 块 后面
+allprojects {
+    configurations.all {
+        resolutionStrategy {
+            deactivateDependencyLocking()
+        }
+    }
 }
