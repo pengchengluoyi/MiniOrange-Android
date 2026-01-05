@@ -7,24 +7,30 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-java@v4
+
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
         with:
           java-version: '17'
           distribution: 'temurin'
-          cache: gradle
+          # 暂时关闭缓存，确保环境纯净
+          # cache: gradle
 
-      - name: Build APK
+      - name: Force Build with Local Wrapper
         run: |
-          # 1. 强制生成并使用 8.5 稳定版，避开 9.x 的各种实验性限制
+          # 1. 彻底锁定 Gradle 8.5 稳定版
+          # 我们不再使用系统的 'gradle' 命令来打包，只用它生成一次 wrapper
           gradle wrapper --gradle-version 8.5
           chmod +x gradlew
           
-          # 2. 通过环境变量注入禁用校验的配置
-          # --no-daemon 确保环境干净
+          # 2. 核心修复：使用 ./gradlew (刚生成的8.5) 而非系统 gradle
+          # 添加禁用校验和禁用守护进程的标志
+          # 加上 -P 参数强制忽略依赖验证
           ./gradlew assembleDebug \
+            --no-daemon \
             -Dorg.gradle.dependency.verification=off \
             --dependency-verification off \
-            --no-daemon
+            -Pkotlin.incremental=false
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
