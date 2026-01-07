@@ -52,4 +52,6 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     // 谷歌扫码服务
     implementation("com.google.android.gms:play-services-code-scanner:16.1.0")
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.material:material:1.6.0'
 }
