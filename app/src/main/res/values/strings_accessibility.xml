@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 无障碍服务 -->
+    <string name="mo_accessibility_service_name">Mo自动化助手</string>
+    <string name="mo_accessibility_service_description">MiniOrange自动化测试与辅助服务</string>
+    
+    <!-- 演示Activity -->
+    <string name="accessibility_demo_title">无障碍服务演示</string>
+    <string name="open_accessibility_settings">开启无障碍服务</string>
+    <string name="check_service_status">检查服务状态</string>
+    <string name="service_enabled">服务已启用</string>
+    <string name="service_disabled">服务未启用</string>
+    <string name="test_click_detection">测试点击检测</string>
+   
