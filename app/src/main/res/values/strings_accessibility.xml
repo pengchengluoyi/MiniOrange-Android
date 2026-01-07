@@ -11,4 +11,18 @@
     <string name="service_enabled">服务已启用</string>
     <string name="service_disabled">服务未启用</string>
     <string name="test_click_detection">测试点击检测</string>
-   
+    <string name="simulate_gesture">模拟手势操作</string>
+    <string name="clear_logs">清除日志</string>
+    
+    <!-- 状态提示 -->
+    <string name="service_started_success">MiniOrange无障碍服务已启动</string>
+    <string name="service_stopped">服务已停止</string>
+    <string name="click_detected">检测到点击: %s</string>
+    <string name="node_found">找到控件: %s</string>
+    
+    <!-- 按钮文本 -->
+    <string name="btn_test_click">点我测试 (ID: btn_test)</string>
+    <string name="btn_simulate_back">模拟返回键</string>
+    <string name="btn_simulate_home">模拟主页键</string>
+    <string name="btn_scan_screen">扫描当前屏幕</string>
+</resources>
